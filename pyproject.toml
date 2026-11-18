@@ -1,0 +1,38 @@
+[project]
+name = "tip-training"
+version = "0.1.0"
+requires-python = ">=3.12"
+# Not listed: epo-tipdata-patstat / -ops / -epab (import epo.tipdata.*)
+dependencies = [
+    "anytree",
+    "bar-chart-race",
+    "folium",
+    "geopandas",
+    "ipython",
+    "ipyvuetify",
+    "ipywidgets",
+    "matplotlib",
+    "matplotlib-venn",
+    "networkx",
+    "numpy",
+    "openpyxl",
+    "pandas",
+    "pillow",
+    "plotly",
+    "python-epo-ops-client",
+    "requests",
+    "requests-cache",
+    "seaborn",
+    "sqlalchemy",
+    "statsmodels",
+    "traitlets",
+    "upsetplot",
+    "xmltodict",
+    "darts",
+    "pytorch-lightning",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel",
+]

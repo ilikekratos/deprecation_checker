@@ -1,0 +1,26 @@
+%% How v1 checks a project against the installed libraries.
+%% Nothing in the project is run: the code is only read.
+flowchart TD
+    start(["Check a folder against a Python environment"]) --> find
+
+    subgraph collect["Step 1: collect what the project uses (collector_v1.py)"]
+        direction TB
+        find["Find every notebook and .py file in the folder<br/>(hidden folders and the checker's own folder are skipped)"]
+        read["Read the code of each file: the whole .py file, or each notebook cell<br/>(markdown, and lines like %matplotlib or !pip, are left out)"]
+        imports["Remember what each import stands for<br/>import pandas as pd: pd stands for pandas"]
+        reused["Forget an import when the file reuses its name<br/>def f(pd), or pd = None"]
+        uses["Write down every name that starts with an import<br/>pd.DataFrame.merge: pandas, DataFrame, merge"]
+        drop["Leave out the standard library and the project's own modules"]
+        find --> read --> imports --> reused --> uses --> drop
+    end
+
+    drop --> saved[("The names, saved in<br/>methods_present_in_project_v1.json")]
+
+    subgraph check["Step 2: check the names in the environment (check_v1.py)"]
+        direction TB
+        lookup["Look each name up in the installed libraries:<br/>import the library, then follow the name"]
+    end
+
+    saved --> lookup
+    lookup -- "some names are missing" --> broken(["Print what might be broken: the check fails"])
+    lookup -- "all names found" --> ok(["The check passes"])
